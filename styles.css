@@ -1,0 +1,35 @@
+/* styles.css */
+body {
+    font-family: sans-serif;
+    margin: 20px;
+}
+
+h1 {
+    text-align: center;
+}
+
+#taskContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.task {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+    width: 300px;
+}
+
+.edit-task-button, .delete-task-button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.edit-task-button:hover, .delete-task-button:hover {
+    background-color: #d32f2f;
+}
