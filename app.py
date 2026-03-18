@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request, render_template
 from flask_sqlalchemy import SQLAlchemy
 import os
+import datetime
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///tasks.db')
@@ -11,6 +12,7 @@ class Task(db.Model):
     title = db.Column(db.String(255), nullable=False)
     description = db.Column(db.Text)
     completed = db.Column(db.Boolean, default=False)
+    created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
     def __repr__(self):
         return f'<Task {self.title}>'
@@ -20,7 +22,8 @@ class Task(db.Model):
             'id': self.id,
             'title': self.title,
             'description': self.description,
-            'completed': self.completed
+            'completed': self.completed,
+            'created_at': self.created_at.isoformat()
         }
 
 @app.route('/tasks', methods=['GET'])

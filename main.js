@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 taskElement.innerHTML = `
                     <p>${task.title} - ${task.description}</p>
                     <p>Completed: ${task.completed ? 'Yes' : 'No'}</p>
+                    <p>Created at: ${task.created_at}</p>
                     <button class="edit-task-button" data-id="${task.id}">Edit</button>
                     <button class="delete-task-button" data-id="${task.id}">Delete</button>
                 `;
@@ -44,6 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             taskElement.innerHTML = `
                                 <p>${task.title} - ${task.description}</p>
                                 <p>Completed: ${task.completed ? 'Yes' : 'No'}</p>
+                                <p>Created at: ${task.created_at}</p>
                                 <button class="edit-task-button" data-id="${task.id}">Edit</button>
                                 <button class="delete-task-button" data-id="${task.id}">Delete</button>
                             `;
@@ -58,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
     taskContainer.addEventListener('click', (event) => {
         if (event.target.classList.contains('edit-task-button')) {
             const taskId = parseInt(event.target.dataset.id);
-            const task = Task.get_by_id(taskId);
+            const task = Task.query.get_or_404(taskId);
             if (task) {
                 const title = prompt("Edit task title:", task.title);
                 const description = prompt("Edit task description:", task.description);
@@ -82,6 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     taskElement.innerHTML = `
                                         <p>${task.title} - ${task.description}</p>
                                         <p>Completed: ${task.completed ? 'Yes' : 'No'}</p>
+                                        <p>Created at: ${task.created_at}</p>
                                         <button class="edit-task-button" data-id="${task.id}">Edit</button>
                                         <button class="delete-task-button" data-id="${task.id}">Delete</button>
                                     `;
@@ -112,6 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 taskElement.innerHTML = `
                                     <p>${task.title} - ${task.description}</p>
                                     <p>Completed: ${task.completed ? 'Yes' : 'No'}</p>
+                                    <p>Created at: ${task.created_at}</p>
                                     <button class="edit-task-button" data-id="${task.id}">Edit</button>
                                     <button class="delete-task-button" data-id="${task.id}">Delete</button>
                                 `;
