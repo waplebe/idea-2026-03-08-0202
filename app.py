@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request, render_template
 from flask_sqlalchemy import SQLAlchemy
 import os
 import datetime
+import unittest
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///tasks.db')
@@ -75,4 +76,42 @@ def index():
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
+    # Add unit tests
+    class TestTasks(unittest.TestCase):
+        def setUp(self):
+            self.app = app
+            with self.app.test_request_context():
+                db.session.remove()
+
+        def test_create_task(self):
+            task = Task(title="Test Task", description="Test Description")
+            db.session.add(task)
+            db.session.commit()
+            self.assertTrue(task.id)
+
+        def test_get_task(self):
+            task = Task(title="Test Task", description="Test Description")
+            db.session.add(task)
+            db.session.commit()
+            retrieved_task = Task.query.get(task.id)
+            self.assertEqual(retrieved_task.title, "Test Task")
+
+        def test_update_task(self):
+            task = Task(title="Old Task", description="Old Description")
+            db.session.add(task)
+            db.session.commit()
+            updated_task = Task.query.get(task.id)
+            updated_task.title = "New Task"
+            db.session.commit()
+            self.assertEqual(updated_task.title, "New Task")
+
+        def test_delete_task(self):
+            task = Task(title="Test Task", description="Test Description")
+            db.session.add(task)
+            db.session.commit()
+            db.session.delete(task)
+            db.session.commit()
+            self.assertFalse(Task.query.get(task.id))
+
+    unittest.main(argv=['first-arg-is-ignored'], exit=False)
     app.run(debug=True)
